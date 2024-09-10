@@ -1,25 +1,13 @@
-import React, { useState } from "react";
-import Lottie from "lottie-react";
-import animationData from "../assets/Animation - 1725973319141.json";
 import axios from "axios";
-import Toastify from "toastify-js";
-import { useNavigate } from "react-router-dom";
 
-function Login() {
-  const [username, setUsername] = useState();
-  const [password, setPassword] = useState();
-  const navigate = useNavigate();
-
-  const loginPost = async () => {
+const RegisterPage = () => {
+  const register = async () => {
     try {
-      const { data } = await axios.post("http://localhost:3000/login", {
-        username,
-        password,
-      });
-      localStorage.setItem("access_token", data.access_token);
-      navigate("/");
+      const data = await axios.post("http://localhost:3000/register");
+      console.log(data);
+
       Toastify({
-        text: "Success Login",
+        text: "Success Add Data",
         duration: 3000,
         destination: "https://github.com/apvarun/toastify-js",
         newWindow: true,
@@ -52,20 +40,20 @@ function Login() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    loginPost();
+    register();
   };
-
   return (
     <div className="min-h-screen flex justify-center items-center relative bg-gradient-to-b from-purple-800 to-purple-900">
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
         <Lottie
           animationData={animationData}
-          className="w-full min-h-max"
+          className="w-full h-full"
         />
       </div>
       {/* Overlay Gradient */}
       <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black opacity-70"></div>
+
       {/* Login Card */}
       <div className="relative z-10 bg-white bg-opacity-10 rounded-xl shadow-xl p-4 max-w-xs w-full backdrop-blur-lg border border-white border-opacity-20">
         <h2 className="text-center text-2xl font-bold text-white mb-4">
@@ -74,7 +62,7 @@ function Login() {
         <form onSubmit={handleSubmit}>
           <div className="mb-4 relative">
             <input
-              onChange={(e) => setUsername(e.target.value)}
+              //   onChange={(e) => setUsername(e.target.value)}
               className="w-full p-2 rounded-lg bg-white bg-opacity-20 text-white placeholder-white focus:outline-none focus:ring-2 focus:ring-purple-400"
               type="text"
               id="username"
@@ -86,7 +74,7 @@ function Login() {
           </div>
           <div className="mb-4 relative">
             <input
-              onChange={(e) => setPassword(e.target.value)}
+              //   onChange={(e) => setPassword(e.target.value)}
               className="w-full p-2 rounded-lg bg-white bg-opacity-20 text-white placeholder-white focus:outline-none focus:ring-2 focus:ring-purple-400"
               type="password"
               id="password"
@@ -115,6 +103,6 @@ function Login() {
       </div>
     </div>
   );
-}
+};
 
-export default Login;
+export default RegisterPage;
