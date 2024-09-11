@@ -4,6 +4,7 @@ import { io } from "socket.io-client";
 import HomePage from "../views/homePage";
 import LoginPage from "../views/loginPage";
 import RegisterPage from "../views/registerPage";
+import ChatPage from "../views/chatPage";
 const socket = io("http://localhost:3000", {
   autoConnect: false,
 });
@@ -29,6 +30,10 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <HomePage socket={socket} />,
+      },
+      {
+        path: "/chat/:id",
+        element: <ChatPage socket={socket} />,
       },
     ],
   },

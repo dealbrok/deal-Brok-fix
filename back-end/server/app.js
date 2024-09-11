@@ -42,6 +42,11 @@ io.on('connection', (socket) => {
     roomNumber++
   })
 
+  socket.on('newMessages', (messages) => {
+    socket.join(2)
+    io.to(2).emit("messagesFromServer", messages)
+    console.log(messages);
+  })
 
 })
 

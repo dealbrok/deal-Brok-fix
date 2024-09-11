@@ -1,11 +1,13 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Toastify from "toastify-js";
 
 const HomePage = ({ socket }) => {
   const [name, setName] = useState();
   const [token, setToken] = useState();
   const [data, setData] = useState();
+  const navigate = useNavigate();
   const test = () => {
     socket.emit("create-room");
   };
@@ -17,7 +19,7 @@ const HomePage = ({ socket }) => {
           Authorization: `Bearer ${localStorage.access_token}`,
         },
       });
-      console.log(data);
+      setData(data);
     } catch (err) {
       Toastify({
         text: err.response.data.message,
@@ -65,6 +67,7 @@ const HomePage = ({ socket }) => {
           },
         },
       );
+      getData();
       Toastify({
         text: "Add Room Success",
         duration: 3000,
@@ -100,6 +103,10 @@ const HomePage = ({ socket }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     postName();
+  };
+
+  const gotoChat = (id) => {
+    navigate(`/chat/${id}`);
   };
   return (
     <>
@@ -156,29 +163,31 @@ const HomePage = ({ socket }) => {
           </dialog>
         </div>
         <div>
-          <div class="grid grid-cols-3 mx-28">
-            <div class="w-[300px] h-[420px] bg-transparent cursor-pointer group perspective">
-              <div class="relative preserve-3d group-hover:my-rotate-y-180 w-full h-full duration-1000">
-                <div class="absolute backface-hidden border-2 w-full h-full">
-                  <h1>names</h1>
-                </div>
-                <div class="absolute my-rotate-y-180 backface-hidden w-full h-full bg-gray-100 overflow-hidden">
-                  <div class="text-center flex flex-col items-center justify-center h-full text-gray-800 px-2 pb-24">
-                    <h1 class="text-3xl font-semibold">The King's Man</h1>
-                    <p class="my-2">9.0 Rating</p>
-                    <p>
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                      Facilis itaque assumenda saepe animi maxime libero non
-                      quasi, odit natus veritatis enim culpa nam inventore
-                      doloribus quidem temporibus amet velit accusamus.
-                    </p>
-                    <button class="bg-teal-500 px-6 py-2 font-semibold text-white rounded-full absolute -bottom-20 delay-500 duration-1000 group-hover:bottom-20 scale-0 group-hover:scale-125">
-                      Watch Now
-                    </button>
+          <div className="grid grid-cols-3 mx-28">
+            {data &&
+              data.map((el, i) => (
+                <div
+                  onClick={() => gotoChat(el.id)}
+                  key={el.id}
+                  className="w-[300px] h-[420px] bg-transparent cursor-pointer group perspective mb-5"
+                >
+                  <div className="relative preserve-3d group-hover:my-rotate-y-180 w-full h-full duration-1000">
+                    <div className="absolute backface-hidden border-2 w-full h-full">
+                      <h1 className="text-center">
+                        Click Here to Join room {i + 1}
+                      </h1>
+                    </div>
+                    <div className="absolute my-rotate-y-180 backface-hidden w-full h-full bg-gray-100 overflow-hidden">
+                      <div className="text-center flex flex-col items-center justify-center h-full text-gray-800 px-2 pb-24">
+                        <h1 className="text-3xl font-semibold">{el.name}</h1>
+                        <button className="bg-teal-500 px-6 py-2 font-semibold text-white rounded-full absolute -bottom-20 delay-500 duration-1000 group-hover:bottom-20 scale-0 group-hover:scale-125">
+                          Join Room
+                        </button>
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </div>
+              ))}
           </div>
         </div>
       </div>
