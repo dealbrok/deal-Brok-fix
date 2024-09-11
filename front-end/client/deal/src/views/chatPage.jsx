@@ -4,7 +4,6 @@ import { useParams } from "react-router-dom";
 const ChatPage = ({ socket }) => {
   const { id } = useParams();
   const [message, setMessage] = useState("");
-  const [valueMessage, setValueMessage] = useState([]);
   const [chat, setChat] = useState([]);
   console.log(chat);
 
@@ -23,7 +22,6 @@ const ChatPage = ({ socket }) => {
     socket.connect();
     socket.on("messagesFromServer", (msg) => {
       setChat((prevMessages) => [...prevMessages, msg]);
-      setValueMessage((prevMessages) => [...prevMessages, msg.message]);
     });
 
     return () => {
