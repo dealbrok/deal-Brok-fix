@@ -7,6 +7,7 @@ class userController {
   static async login(req, res, next) {
     try {
       const { username, password } = req.body
+      console.log(username, password);
 
       if (!username || !password) throw { name: 'InvalidLogin' }
 
@@ -15,6 +16,8 @@ class userController {
           username
         }
       })
+
+      if (!loginUser) throw ({ name: "InvalidLogin" })
 
       if (!compare(password, loginUser.password)) throw { name: 'LoginError' }
 
