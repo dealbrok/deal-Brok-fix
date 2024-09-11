@@ -26,21 +26,16 @@ const ChatPage = ({ socket }) => {
 
   return (
     <div className="flex flex-col h-screen bg-rose-50">
-      <div id="messageContainer" className="flex-1 overflow-auto p-4 bg-white border-t border-gray-300">
+      <div className="flex-1 overflow-auto p-4 bg-white border-t border-gray-300">
         <div className="space-y-2">
           {valueMessage.map((msg, index) => (
-            <div
-              className="ml-2 py-3 px-4 bg-gray-400 rounded-br-3xl rounded-tr-3xl rounded-tl-xl text-white block max-w-xs break-words"
-              key={index}
-            >
-              {msg}
-            </div>
+            <div className="ml-2 py-3 px-4 w-auto bg-gray-400 rounded-br-3xl rounded-tr-3xl rounded-tl-xl text-white" key={index}>{msg}</div>
           ))}
         </div>
       </div>
       <div className="p-4 bg-gray-800 border-t border-gray-600 mb-10">
-        <div className="flex justify-center">
-          <form onSubmit={handleSubmit} className="w-full max-w-lg">
+        <div className="flex">
+          <form onSubmit={handleSubmit}>
             <input
               type="text"
               className="w-full bg-gray-300 py-5 px-3 rounded-xl"

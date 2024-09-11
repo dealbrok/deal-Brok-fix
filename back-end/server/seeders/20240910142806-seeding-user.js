@@ -13,6 +13,14 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date()
 
+      },
+      {
+        username: "rahasia",
+        password: passwordHash("123"),
+        role: "Admin",
+        createdAt: new Date(),
+        updatedAt: new Date()
+
       }
     ])
   },
