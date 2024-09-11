@@ -8,9 +8,6 @@ const HomePage = ({ socket }) => {
   const [token, setToken] = useState();
   const [data, setData] = useState();
   const navigate = useNavigate();
-  const test = () => {
-    socket.emit("create-room");
-  };
 
   const getData = async () => {
     try {
@@ -45,7 +42,7 @@ const HomePage = ({ socket }) => {
   useEffect(() => {
     socket.connect();
     socket.on("welcome", (message) => {
-      console.log(message, "ss");
+      console.log(message);
     });
     return () => {
       socket.off("hello");
@@ -116,7 +113,6 @@ const HomePage = ({ socket }) => {
             className="btn"
             onClick={() => {
               document.getElementById("my_modal_2").showModal();
-              test();
             }}
           >
             Add new Room Chat

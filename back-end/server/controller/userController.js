@@ -26,9 +26,11 @@ class userController {
         email: loginUser.email
       }
 
+
       const access_token = signToken(payload)
       res.status(200).json({
-        access_token
+        access_token,
+        name: loginUser.username
       })
     } catch (error) {
       console.log(error.name);

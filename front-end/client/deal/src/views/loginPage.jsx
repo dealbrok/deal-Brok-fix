@@ -16,7 +16,9 @@ function Login() {
         username,
         password,
       });
+      console.log(data);
       localStorage.setItem("access_token", data.access_token);
+      localStorage.setItem("name", data.name);
       navigate("/");
       Toastify({
         text: "Success Login",

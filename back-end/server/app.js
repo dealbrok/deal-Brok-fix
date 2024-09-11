@@ -9,7 +9,6 @@ const router = require("./routes/index")
 const { createServer } = require('node:http')
 const { Server } = require('socket.io')
 const errorHandler = require('./middleware/errorHandler')
-const { emit } = require('node:process')
 const port = process.env.PORT || 3000
 
 
@@ -28,26 +27,12 @@ app.use(express.json())
 app.use(router)
 
 io.on('connection', (socket) => {
-  console.log('a user connected', socket.id);
-  let roomNumber = 1
+  console.log('user connected', socket.id);
 
-  socket.on('hello', (arg) => {
-    console.log(arg);
-  });
-
-  socket.on('create-room', () => {
-    socket.join(roomNumber)
-    io.to(roomNumber).emit("welcome", "Hello, Good Morning");
-    console.log(roomNumber);
-    roomNumber++
+  socket.on('newMessages', (messages, id) => {
+    socket.join(id)
+    io.to(id).emit("messagesFromServer", messages)
   })
-
-  socket.on('newMessages', (messages) => {
-    socket.join(2)
-    io.to(2).emit("messagesFromServer", messages)
-    console.log(messages);
-  })
-
 })
 
 app.use(errorHandler)

@@ -17,5 +17,4 @@ app.get("/room", fetchData)
 app.get("/room/:id", fetchId)
 app.post("/room", postData)
 
-
 module.exports = app
