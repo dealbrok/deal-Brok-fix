@@ -1,4 +1,4 @@
-const { where } = require('sequelize')
+
 const { verifiedToken } = require('../helper/jwt')
 const { User } = require('../models')
 
@@ -28,6 +28,8 @@ const authentication = async (req, res, next) => {
       UserId: userVerfied.id,
       username: userVerfied.username
     }
+
+    console.log(req.loginInfo);
 
     next()
   } catch (error) {
