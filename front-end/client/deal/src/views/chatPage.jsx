@@ -34,7 +34,7 @@ const ChatPage = ({ socket }) => {
       const formData = new FormData();
       formData.append("image", image);
 
-      const url = "http://localhost:3000";
+      const url = "https://project.athiflanang.site";
 
       try {
         const response = await axios.post(`${url}/upload`, formData, {

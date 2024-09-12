@@ -5,7 +5,8 @@ import Toastify from "toastify-js";
 import { useContext } from "react";
 import Lottie from "lottie-react";
 import emptyData from "../assets/emptyDataAnimation.json";
-import { themeContext } from "../context/themeContext";
+// import { themeContext } from "../context/themeContext";
+import { themeContext } from "../context/ThemeContext";
 
 const HomePage = ({ socket }) => {
   const [name, setName] = useState();
@@ -14,11 +15,17 @@ const HomePage = ({ socket }) => {
   const navigate = useNavigate();
   const { currentTheme, theme } = useContext(themeContext); // +++ UPDATE +++
 
+  /*
+  [>>> url localhost <<<]
+  const url = "http://localhost:3000"
+  */
+  const url = "https://project.athiflanang.site";
+
   console.log(data);
 
   const getData = async () => {
     try {
-      const { data } = await axios.get("http://localhost:3000/room", {
+      const { data } = await axios.get(`${url}/room`, {
         headers: {
           Authorization: `Bearer ${localStorage.access_token}`,
         },
@@ -61,7 +68,7 @@ const HomePage = ({ socket }) => {
   const postName = async () => {
     try {
       await axios.post(
-        "http://localhost:3000/room",
+        `${url}/room`,
         {
           name,
           token,
@@ -70,7 +77,7 @@ const HomePage = ({ socket }) => {
           headers: {
             Authorization: `Bearer ${localStorage.access_token}`,
           },
-        },
+        }
       );
       getData();
       Toastify({
@@ -127,10 +134,7 @@ const HomePage = ({ socket }) => {
             >
               Add new Room Chat
             </button>
-            <dialog
-              id="my_modal_2"
-              className="modal"
-            >
+            <dialog id="my_modal_2" className="modal">
               <div className="modal-box">
                 <h1 className="text-center mb-5">Input Name</h1>
                 <div className=" flex justify-center">
@@ -160,10 +164,7 @@ const HomePage = ({ socket }) => {
                   </form>
                 </div>
               </div>
-              <form
-                method="dialog"
-                className="modal-backdrop"
-              >
+              <form method="dialog" className="modal-backdrop">
                 <button>close</button>
               </form>
             </dialog>
