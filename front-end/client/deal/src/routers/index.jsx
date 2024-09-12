@@ -22,9 +22,9 @@ const router = createBrowserRouter([
   {
     element: <BaseLayout />,
     loader: () => {
-      // if (!localStorage.access_token) {
-      //   return redirect("/login");
-      // }
+      if (!localStorage.access_token) {
+        return redirect("/login");
+      }
       return null;
     },
     children: [

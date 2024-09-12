@@ -2,11 +2,14 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useContext } from "react";
 import { themeContext } from "../context/ThemeContext";
+import axios from "axios";
 
 const ChatPage = ({ socket }) => {
   const { id } = useParams();
   const [message, setMessage] = useState("");
   const [chat, setChat] = useState([]);
+  const [image, setImage] = useState(null);
+  const [fileSelected, setFileSelected] = useState(false);
   const { currentTheme, theme } = useContext(themeContext);
   console.log(chat);
 
@@ -16,9 +19,38 @@ const ChatPage = ({ socket }) => {
     let obj = {
       message,
       name,
+      image,
     };
     socket.emit("newMessages", obj, id);
     setMessage("");
+  };
+
+  const sendImage = async (e) => {
+    e.preventDefault();
+
+    let imageUrl = "";
+
+    if (image) {
+      const formData = new FormData();
+      formData.append("image", image);
+
+      const url = "http://localhost:3000";
+
+      try {
+        const response = await axios.post(`${url}/upload`, formData, {
+          headers: {
+            Authorization: `Bearer ${localStorage.access_token}`,
+            "Content-Type": "multipart/form-data",
+          },
+        });
+        console.log(response);
+        imageUrl = response.data.url``;
+      } catch (err) {
+        console.log("Failed to upload image", err);
+      }
+      setImage(null);
+      setFileSelected(false);
+    }
   };
 
   useEffect(() => {
@@ -71,19 +103,29 @@ const ChatPage = ({ socket }) => {
         </div>
         <div className="p-4 bg-gray-800 border-t border-gray-600 mb-10">
           <div className="flex">
-            <button className="mr-2 px-4 py-2 bg-blue-500 text-white rounded-l-lg hover:bg-blue-600">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                height="24px"
-                viewBox="0 -960 960 960"
-                width="24px"
-                fill="#e8eaed"
-              >
-                <path d="M480-260q75 0 127.5-52.5T660-440q0-75-52.5-127.5T480-620q-75 0-127.5 52.5T300-440q0 75 52.5 127.5T480-260Zm0-80q-42 0-71-29t-29-71q0-42 29-71t71-29q42 0 71 29t29 71q0 42-29 71t-71 29ZM160-120q-33 0-56.5-23.5T80-200v-480q0-33 23.5-56.5T160-760h126l74-80h240l74 80h126q33 0 56.5 23.5T880-680v480q0 33-23.5 56.5T800-120H160Zm0-80h640v-480H638l-73-80H395l-73 80H160v480Zm320-240Z" />
-              </svg>
-            </button>
             <form onSubmit={handleSubmit} className="w-full">
               <div className="flex">
+                <label htmlFor="image-upload" className="cursor-pointer mr-2">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M3 6l3 1m0 0l1-3h8l1 3 3 1v13a2 2 0 01-2 2H5a2 2 0 01-2-2V7l3-1zm3 5a3 3 0 116 0 3 3 0 01-6 0z"
+                    />
+                  </svg>
+                  <input
+                    id="image-upload"
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
+                  />
+                </label>
                 <input
                   type="text"
                   className="flex-1 p-2 border border-gray-300 rounded-l-lg w-full"
