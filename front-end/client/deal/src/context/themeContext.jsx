@@ -5,17 +5,18 @@ export const themeContext = createContext({
   setCurrentTheme: () => {},
   theme: {
     light: {
-      dataTheme: "",
+      bgColor: "",
+      txtColor: "",
     },
     dark: {
-      dataTheme: "",
+      bgColor: "",
+      txtColor: "",
     },
   },
 });
 
-export default function ThemeProvider({ children }) {
+const ThemeProvider = ({ children }) => {
   const [currentTheme, setCurrentTheme] = useState("light");
-
   return (
     <themeContext.Provider
       value={{
@@ -23,10 +24,12 @@ export default function ThemeProvider({ children }) {
         setCurrentTheme,
         theme: {
           light: {
-            dataTheme: "light",
+            bgColor: "bg-slate-200",
+            txtColor: "text-black",
           },
           dark: {
-            dataTheme: "dark",
+            bgColor: "bg-base-200",
+            txtColor: "text-white",
           },
         },
       }}
@@ -34,4 +37,6 @@ export default function ThemeProvider({ children }) {
       {children}
     </themeContext.Provider>
   );
-}
+};
+
+export default ThemeProvider;

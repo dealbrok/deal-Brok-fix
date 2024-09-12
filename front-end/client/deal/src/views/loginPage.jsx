@@ -19,18 +19,18 @@ function Login() {
       console.log(data);
       localStorage.setItem("access_token", data.access_token);
       localStorage.setItem("name", data.name);
-      navigate("/");
+      navigate("/home");
       Toastify({
         text: "Success Login",
         duration: 3000,
         destination: "https://github.com/apvarun/toastify-js",
         newWindow: true,
         close: true,
-        gravity: "top", // `top` or `bottom`
-        position: "left", // `left`, `center` or `right`
+        gravity: "bottom", // `top` or `bottom`
+        position: "right", // `left`, `center` or `right`
         stopOnFocus: true, // Prevents dismissing of toast on hover
         style: {
-          background: "linear-gradient(to right, #00b09b, #96c93d)",
+          background: "linear-gradient(to right, #00b09b, #a838fc)",
         },
         onClick: function () {}, // Callback after click
       }).showToast();
@@ -45,7 +45,7 @@ function Login() {
         position: "left", // `left`, `center` or `right`
         stopOnFocus: true, // Prevents dismissing of toast on hover
         style: {
-          background: "linear-gradient(to right, #00b09b, #96c93d)",
+          background: "linear-gradient(to right, #fc0808, #a838fc)",
         },
         onClick: function () {}, // Callback after click
       }).showToast();
@@ -61,10 +61,7 @@ function Login() {
     <div className="min-h-screen flex justify-center items-center relative bg-gradient-to-b from-purple-800 to-purple-900">
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
-        <Lottie
-          animationData={animationData}
-          className="w-full min-h-max"
-        />
+        <Lottie animationData={animationData} className="w-full min-h-max" />
       </div>
       {/* Overlay Gradient */}
       <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black opacity-70"></div>
@@ -107,10 +104,7 @@ function Login() {
         </form>
         <p className="text-center text-white text-sm mt-4">
           Don't have an account?{" "}
-          <a
-            href="#"
-            className="underline hover:text-purple-300"
-          >
+          <a href="#" className="underline hover:text-purple-300">
             Register
           </a>
         </p>
