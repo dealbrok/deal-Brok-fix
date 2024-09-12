@@ -6,7 +6,15 @@ import LoginPage from "../views/loginPage";
 import RegisterPage from "../views/registerPage";
 import ChatPage from "../views/chatPage";
 import HomeLoading from "../views/homeLoading";
+
+/*
+[>>> running using localhost <<<]
 const socket = io("http://localhost:3000", {
+  autoConnect: false,
+});
+*/
+
+const socket = io("https://project.athiflanang.site", {
   autoConnect: false,
 });
 

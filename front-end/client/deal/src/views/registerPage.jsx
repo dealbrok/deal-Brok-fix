@@ -3,7 +3,9 @@ import axios from "axios";
 const RegisterPage = () => {
   const register = async () => {
     try {
-      const data = await axios.post("http://localhost:3000/register");
+      const data = await axios.post(
+        "https://project.athiflanang.site/register"
+      );
       console.log(data);
 
       Toastify({
@@ -46,10 +48,7 @@ const RegisterPage = () => {
     <div className="min-h-screen flex justify-center items-center relative bg-gradient-to-b from-purple-800 to-purple-900">
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
-        <Lottie
-          animationData={animationData}
-          className="w-full h-full"
-        />
+        <Lottie animationData={animationData} className="w-full h-full" />
       </div>
       {/* Overlay Gradient */}
       <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black opacity-70"></div>
@@ -93,10 +92,7 @@ const RegisterPage = () => {
         </form>
         <p className="text-center text-white text-sm mt-4">
           Don't have an account?{" "}
-          <a
-            href="#"
-            className="underline hover:text-purple-300"
-          >
+          <a href="#" className="underline hover:text-purple-300">
             Register
           </a>
         </p>

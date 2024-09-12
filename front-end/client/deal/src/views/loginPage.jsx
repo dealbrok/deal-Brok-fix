@@ -10,9 +10,15 @@ function Login() {
   const [password, setPassword] = useState();
   const navigate = useNavigate();
 
+  /*
+  [>>> url localhost <<<]
+  const url = "http://localhost:3000"
+  */
+  const url = "https://project.athiflanang.site";
+
   const loginPost = async () => {
     try {
-      const { data } = await axios.post("http://localhost:3000/login", {
+      const { data } = await axios.post(`${url}/login`, {
         username,
         password,
       });
