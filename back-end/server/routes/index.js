@@ -1,9 +1,9 @@
 const express = require('express')
-const { login, register } = require('../controller/userController')
 const authentication = require('../middleware/authentication')
+const { login, register } = require('../controller/userController')
 const { uploadImage } = require('../controller/uploadImageController')
-const upload = require("../helper/multer")
 const { fetchData, fetchId, postData, deleteRoomById } = require('../controller/roomController')
+const upload = require("../helper/multer")
 const app = express()
 
 app.post("/login", login)
