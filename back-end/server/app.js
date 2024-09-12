@@ -11,8 +11,9 @@ const { Server } = require('socket.io')
 const errorHandler = require('./middleware/errorHandler')
 const port = process.env.PORT || 3000
 
-
 app.use(cors())
+
+/* nanti kalau mau deploy jangan lupa masukin link deploy vercel*/
 
 const httpServer = createServer(app);
 const io = new Server(httpServer, {

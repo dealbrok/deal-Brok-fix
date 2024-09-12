@@ -11,7 +11,7 @@ app.post("/register", register)
 
 app.use(authentication)
 
-app.post('/uploadImage', upload.single('imageUrl'), uploadImage)
+app.post('/upload', upload.single('imageUrl'), uploadImage)
 
 app.get("/room", fetchData)
 app.get("/room/:id", fetchId)

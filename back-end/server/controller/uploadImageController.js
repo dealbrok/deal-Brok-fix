@@ -5,41 +5,32 @@ class uploadController {
     static async uploadImage(req, res, next) {
         try {
             cloudinary.config({
-                cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-                api_key: process.env.CLOUDINARY_API_KEY,
-                api_secret: process.env.CLOUDINARY_API_SECRET
+                cloud_name: 'drkfb0ifx',
+                api_key: '274539168649744',
+                api_secret: '0dxx_glDpFolCYe2gC6NkIjkPZs'
             })
 
             const file = req.file
 
+            if (!file) {
+                return res.status(400).send('No file upload')
+            }
+
             const base64 = file.buffer.toString("base64")
 
-            const output = await cloudinary.uploader.upload(
+            const result = await cloudinary.uploader.upload(
                 `data:${file.mimetype};base64,${base64}`
             )
 
-            //testing upload image manually
-            const UserId = 1
-            const RoomId = 1
-
-            await Upload.create({ message: output.secure_url, UserId, RoomId })
-
             //upload image when using socket.io
-            /*
-            let uploadImg = await cloudinary.uploader.upload(`data:${file.mimetype};base64,${base64}`)
-      
             res.status(200).send({
-              message: "Successfully upload image",
-              imageUrl: result.secure_url
+                message: "Image upload successfully",
+                imageUrl: result.secure_url
             })
-            */
 
-            res.status(200).json({
-                message: "Successfully upload image",
-                imageUrl: output.secure_url
-            })
         } catch (error) {
-            next(error)
+            console.log('Error uploading image', error);
+            res.status(500).send('Failed to upload image')
         }
     }
 }
