@@ -3,7 +3,7 @@ const { login, register } = require('../controller/userController')
 const authentication = require('../middleware/authentication')
 const { uploadImage } = require('../controller/uploadImageController')
 const upload = require("../helper/multer")
-const { fetchData, fetchId, postData } = require('../controller/roomController')
+const { fetchData, fetchId, postData, deleteRoomById } = require('../controller/roomController')
 const app = express()
 
 app.post("/login", login)
@@ -16,5 +16,6 @@ app.post('/upload', upload.single('imageUrl'), uploadImage)
 app.get("/room", fetchData)
 app.get("/room/:id", fetchId)
 app.post("/room", postData)
+app.delete("/room/:id", deleteRoomById)
 
 module.exports = app
