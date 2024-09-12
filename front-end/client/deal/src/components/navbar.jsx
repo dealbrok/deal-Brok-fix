@@ -23,10 +23,7 @@ const Navbar = () => {
         >
           Logout
         </button>
-        <button
-          onClick={toggleTheme}
-          className="btn ml-4"
-        >
+        <button className="btn ml-4">
           Switch to {currentTheme === "light" ? "Dark" : "Light"} Mode
         </button>
       </div>
