@@ -3,9 +3,9 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Toastify from "toastify-js";
 import { useContext } from "react";
-import { themeContext } from "../context/ThemeContext";
 import Lottie from "lottie-react";
 import emptyData from "../assets/emptyDataAnimation.json";
+import { themeContext } from "../context/themeContext";
 
 const HomePage = ({ socket }) => {
   const [name, setName] = useState();
@@ -25,6 +25,7 @@ const HomePage = ({ socket }) => {
       });
       setData(data);
     } catch (err) {
+      console.log(err);
       Toastify({
         text: err.response.data.message,
         duration: 3000,
@@ -69,7 +70,7 @@ const HomePage = ({ socket }) => {
           headers: {
             Authorization: `Bearer ${localStorage.access_token}`,
           },
-        }
+        },
       );
       getData();
       Toastify({
@@ -126,7 +127,10 @@ const HomePage = ({ socket }) => {
             >
               Add new Room Chat
             </button>
-            <dialog id="my_modal_2" className="modal">
+            <dialog
+              id="my_modal_2"
+              className="modal"
+            >
               <div className="modal-box">
                 <h1 className="text-center mb-5">Input Name</h1>
                 <div className=" flex justify-center">
@@ -156,7 +160,10 @@ const HomePage = ({ socket }) => {
                   </form>
                 </div>
               </div>
-              <form method="dialog" className="modal-backdrop">
+              <form
+                method="dialog"
+                className="modal-backdrop"
+              >
                 <button>close</button>
               </form>
             </dialog>
@@ -179,7 +186,7 @@ const HomePage = ({ socket }) => {
                     <div
                       onClick={() => gotoChat(el.id)}
                       key={el.id}
-                      className="w-[300px] h-[420px] bg-transparent cursor-pointer group perspective mb-5"
+                      className="w-[300px] h-[420px] bg-transparent cursor-pointer group perspective mb-5 mr-5"
                     >
                       <div className="relative preserve-3d group-hover:my-rotate-y-180 w-full h-full duration-1000">
                         <div className="absolute backface-hidden border-2 w-full h-full">

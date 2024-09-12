@@ -1,5 +1,5 @@
 const { v2: cloudinary } = require('cloudinary')
-const { User, Room, Upload } = require('../models')
+
 
 class uploadController {
     static async uploadImage(req, res, next) {
@@ -23,7 +23,7 @@ class uploadController {
             )
 
             //upload image when using socket.io
-            res.status(200).send({
+            res.status(200).json({
                 message: "Image upload successfully",
                 imageUrl: result.secure_url
             })

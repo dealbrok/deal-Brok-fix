@@ -53,7 +53,10 @@ const Navbar = () => {
           </svg>
         </label>
         <div className="flex-none">
-          <button onClick={handleLogout} className="btn ">
+          <button
+            onClick={handleLogout}
+            className="btn "
+          >
             Logout
           </button>
         </div>
