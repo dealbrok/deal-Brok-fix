@@ -40,7 +40,7 @@ This document provides the details of the API endpoints for user authentication,
 
     ```json
     {
-    "message": "Invalid email/password"
+    "message": "Please insert your username or password (400)"
     }
     ```
 
@@ -58,7 +58,7 @@ Register a new user.
   - Body:
     ```json
     {
-      "user": {
+      "data": {
         "id": "number",
         "username": "string",
         "password": "string"
