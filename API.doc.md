@@ -37,12 +37,12 @@ This document provides the details of the API endpoints for user authentication,
 
     - Status: `400 - Bad Request`
     - Body:
-    
+
     ```json
     {
     "message": "Invalid email/password"
     }
-    ````
+    ```
 
 ### Post `/register`
 
