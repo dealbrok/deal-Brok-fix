@@ -5,9 +5,10 @@ class RoomController {
     static async postData(req, res, next) {
         try {
             const { name, token } = req.body
+       
+           const res =  await Room.create({ name, token })
 
-            console.log(req.body);
-            await Room.create({ name, token })
+            console.log(res);
 
             res.status(201).json({ message: "Add Room Success" })
         } catch (err) {
@@ -25,11 +26,21 @@ class RoomController {
         }
     }
 
+    static async validationRoom(req,res,next){
+        try {
+            const { id } = req.params
+            console.log(id);
+        } catch (err) {
+            next(err)
+        }
+    }
+
     static async fetchId(req, res, next) {
         try {
             const { id } = req.params
 
             const data = await Room.findByPk(id)
+            console.log(data);
             if (!data) throw ({ name: "Not Found" })
 
             res.status(200).json(data)

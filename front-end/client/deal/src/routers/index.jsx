@@ -14,7 +14,7 @@ const socket = io("http://localhost:3000", {
 });
 */
 
-const socket = io("https://project.athiflanang.site", {
+const socket = io("http://localhost:3000", {
   autoConnect: false,
 });
 

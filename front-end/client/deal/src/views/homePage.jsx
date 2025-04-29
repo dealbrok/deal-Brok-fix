@@ -11,6 +11,8 @@ import { themeContext } from "../context/ThemeContext";
 const HomePage = ({ socket }) => {
   const [name, setName] = useState();
   const [token, setToken] = useState();
+  const [tokenValidation,setTokenValidation] = useState()
+  const [idTokenValid, setIdTokenValid] = useState()
   const [data, setData] = useState([]);
   const navigate = useNavigate();
   const { currentTheme, theme } = useContext(themeContext); // +++ UPDATE +++
@@ -19,9 +21,8 @@ const HomePage = ({ socket }) => {
   [>>> url localhost <<<]
   const url = "http://localhost:3000"
   */
-  const url = "https://project.athiflanang.site";
+  const url = "http://localhost:3000";
 
-  console.log(data);
 
   const getData = async () => {
     try {
@@ -95,8 +96,33 @@ const HomePage = ({ socket }) => {
         onClick: function () {}, // Callback after click
       }).showToast();
     } catch (err) {
+      getData();
+      document.getElementById("my_modal_2").close();
+    }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    postName();
+  };
+
+  const handleToken = (e) => {
+    e.preventDefault()
+    tokenValid()
+  }
+
+  const tokenValid = async () => {
+    
+   const res = await axios.get(`${url}/room/${idTokenValid}`,{
+      headers: {
+        Authorization: `Bearer ${localStorage.access_token}`,
+      },
+    })
+    
+    const { data } = res
+    if(data.token == tokenValidation){
       Toastify({
-        text: err.response.data.message,
+        text: "Berhasil Masuk Ke Room Chat",
         duration: 3000,
         destination: "https://github.com/apvarun/toastify-js",
         newWindow: true,
@@ -109,16 +135,32 @@ const HomePage = ({ socket }) => {
         },
         onClick: function () {}, // Callback after click
       }).showToast();
+      navigate(`/chat/${idTokenValid}`);
+    }else{
+      Toastify({
+        text: "Token Salah",
+        duration: 3000,
+        destination: "https://github.com/apvarun/toastify-js",
+        newWindow: true,
+        close: true,
+        gravity: "top", // `top` or `bottom`
+        position: "left", // `left`, `center` or `right`
+        stopOnFocus: true, // Prevents dismissing of toast on hover
+        style: {
+          background: "red",
+        },
+        onClick: function () {}, // Callback after click
+      }).showToast();
     }
-  };
+  }
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    postName();
-  };
-
-  const gotoChat = (id) => {
-    navigate(`/chat/${id}`);
+  const gotoChat = (id,token) => {
+    if(!token){
+      navigate(`/chat/${id}`);
+    }else{
+      document.getElementById("my_modal_3").showModal();
+      setIdTokenValid(id)
+    }
   };
   return (
     <>
@@ -135,39 +177,79 @@ const HomePage = ({ socket }) => {
               Add new Room Chat
             </button>
             <dialog id="my_modal_2" className="modal">
-              <div className="modal-box">
-                <h1 className="text-center mb-5">Input Name</h1>
-                <div className=" flex justify-center">
-                  <form onSubmit={handleSubmit}>
-                    <div>
-                      <input
-                        className="input input-bordered join-item"
-                        placeholder="Name"
-                        onChange={(e) => setName(e.target.value)}
-                      />
-                    </div>
-                    <div className="mt-5">
-                      <input
-                        className="input input-bordered join-item"
-                        placeholder="Token"
-                        onChange={(e) => setToken(e.target.value)}
-                      />
-                    </div>
-                    <div className="flex justify-center mt-5">
-                      <button
-                        type="submit"
-                        className="btn join-item rounded-r-full"
-                      >
-                        submit
-                      </button>
-                    </div>
-                  </form>
-                </div>
-              </div>
-              <form method="dialog" className="modal-backdrop">
-                <button>close</button>
-              </form>
-            </dialog>
+  <div className="modal-box p-10 relative">
+    {/* Tombol silang di pojok kanan atas */}
+    <form method="dialog">
+      <button className="absolute right-4 top-4 text-xl text-gray-500 hover:text-red-500">
+        &times;
+      </button>
+    </form>
+
+    <h1 className="text-center mb-5">Input Room Name</h1>
+    <div className="flex justify-center">
+      <form onSubmit={handleSubmit}>
+        <div>
+          <input
+            className="input input-bordered join-item border-2 border-gray-300 rounded-lg p-1"
+            placeholder="Name"
+            onChange={(e) => setName(e.target.value)}
+          />
+        </div>
+        <div className="mt-5">
+          <input
+            className="input input-bordered join-item border-2 border-gray-300 rounded-lg p-1"
+            placeholder="Token"
+            onChange={(e) => setToken(e.target.value)}
+          />
+        </div>
+        <div className="flex justify-center mt-5">
+          <button type="submit" className="btn join-item rounded-r-full">
+            Submit
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</dialog>
+<dialog id="my_modal_3" className="modal">
+  <div className="modal-box px-8 py-10 relative rounded-2xl shadow-xl">
+    
+    {/* Tombol Close (X) */}
+    <form method="dialog">
+      <button
+        className="absolute right-4 top-4 text-2xl text-gray-400 hover:text-red-500 transition duration-200"
+        aria-label="Close"
+      >
+        &times;
+      </button>
+    </form>
+
+    {/* Title */}
+    <h2 className="text-2xl font-semibold text-center mb-6 text-gray-700">
+      Input Token Room
+    </h2>
+
+    {/* Form */}
+    <form onSubmit={handleToken} className="flex flex-col items-center gap-4">
+      <input
+        type="text"
+        className="input input-bordered w-full max-w-xs border-gray-300 rounded-lg px-4 py-2 text-center"
+        placeholder="Enter Token"
+        onChange={(e) => setTokenValidation(e.target.value)}
+        required
+      />
+
+      <button
+        type="submit"
+        className="btn btn-primary w-full max-w-xs rounded-lg"
+      >
+        Submit
+      </button>
+    </form>
+  </div>
+</dialog>
+
+
           </div>
           <div className="flex justify-center items-center">
             {data.length === 0 ? (
@@ -181,29 +263,19 @@ const HomePage = ({ socket }) => {
                 </div>
               </div>
             ) : (
-              <div className="grid grid-cols-3 mx-28">
+              <div className="grid grid-cols-1 lg:grid-cols-3 mx-28">
                 {data &&
                   data.map((el, i) => (
                     <div
-                      onClick={() => gotoChat(el.id)}
+                      onClick={() => gotoChat(el.id,el.token)}
                       key={el.id}
                       className="w-[300px] h-[420px] bg-transparent cursor-pointer group perspective mb-5 mr-5"
                     >
-                      <div className="relative preserve-3d group-hover:my-rotate-y-180 w-full h-full duration-1000">
-                        <div className="absolute backface-hidden border-2 w-full h-full">
+                      <div className="relative border-2 border-gray-500 preserve-3d w-full h-full duration-1000">
+                        <div className="flex justify-center items-center border-2 w-full h-full">
                           <h1 className="text-center">
-                            Click Here to Join room {i + 1}
+                            Click Here to Join {el.name} room 
                           </h1>
-                        </div>
-                        <div className="absolute my-rotate-y-180 backface-hidden w-full h-full bg-gray-100 overflow-hidden">
-                          <div className="text-center flex flex-col items-center justify-center h-full text-gray-800 px-2 pb-24">
-                            <h1 className="text-3xl font-semibold">
-                              {el.name}
-                            </h1>
-                            <button className="bg-teal-500 px-6 py-2 font-semibold text-white rounded-full absolute -bottom-20 delay-500 duration-1000 group-hover:bottom-20 scale-0 group-hover:scale-125">
-                              Join Room
-                            </button>
-                          </div>
                         </div>
                       </div>
                     </div>

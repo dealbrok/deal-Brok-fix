@@ -23,8 +23,10 @@ const HomeLoading = () => {
       <div className={theme[currentTheme].bgColor}>
         <div className="z-1 hero min-h-screen">
           <div className="hero-content text-center">
-            <div className="max-w-md">
-              <Lottie animationData={Animation1} />
+            <div className="">
+              <div className="flex justify-center">
+              <Lottie animationData={Animation1} className="w-96 h-96" />
+              </div>
               <h1 className="text-2xl">
                 Hi <span className="text-purple-700 font-bold">!</span> Welcome
                 to
